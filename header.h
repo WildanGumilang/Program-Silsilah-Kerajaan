@@ -15,13 +15,7 @@ typedef char* infotype;
 typedef struct royalNode *nbAddr;
 typedef struct mate *mateAddr;
 
-typedef struct mate{
-	infotype nama;
-	int age;
-	bool gender;
-}nbMateNode;
-
-typedef struct royalTree{
+typedef struct royalNode{
 	infotype nama;
 	int age;
 	bool gender;
@@ -30,11 +24,18 @@ typedef struct royalTree{
 	nbAddr nb;
 	nbAddr pr;
 	mateAddr ps;
-}nbTreeNode;
+}TNode;
 
-struct nbTree{
+typedef struct mate{
+	infotype nama;
+	int age;
+	bool gender;
+}Mate;
+
+typedef struct{
 	nbAddr root;
-};
+}Root;
 
+nbAddr searchNode(Root X,infotype nama);
 
 #endif
