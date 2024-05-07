@@ -38,4 +38,10 @@ typedef struct{
 
 nbAddr searchNode(Root X,infotype nama);
 
+void insertNode(infotype nama, bool gender, nbAddr parent);
+
+bool isSingle(nbAddr Person);
+
+void setMate(nbAddr Person, infotype mate, int umur, bool sex);
+
 #endif

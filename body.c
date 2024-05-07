@@ -1,8 +1,14 @@
 #include "header.h"
 
-nbAddr searchNode(Root X,infotype nama)
-/* Mencari suatu Node berdasarkan subvar nama lalu akan mengembalikan node tersebut jika ketemu */
-{
+bool isEmpty(nbAddr *node) {
+	return node == NULL;
+}
+
+bool isRoot(Root X, nbAddr node) {
+	return X.root == node;
+}
+
+nbAddr searchNode(Root X,infotype nama) {
 	nbAddr Pcur;
 	bool Resmi;
 	int index;
@@ -34,36 +40,49 @@ nbAddr searchNode(Root X,infotype nama)
 	}
 }
 
-void nbInsert(infotype n,bool Kl,int usia,nbAddr ortu)
-{
+void insertNode(infotype nama, bool gender, nbAddr parent) {
     nbAddr temp;
     nbAddr newnode;
-    newnode = (nbAddr)malloc(sizeof(TNode));
-    if (newnode != NULL)
-    {
+    newnode = (TNode*)malloc(sizeof(TNode));
+    if (newnode != NULL) {
         printf("Error,alokasi gagal");
         exit(1);
     }
-        newnode->nama = n;
-        newnode->age = usia;
-        newnode->gender = Kl;
-        newnode->parent = ortu ->nama;
+        newnode->nama = nama;
+        newnode->gender = gender;
+        newnode->parent = parent->nama;
         newnode->fs = NULL;
         newnode->nb = NULL;
-        newnode->pr = ortu;
+        newnode->pr = parent;
         newnode->ps = NULL;
+		newnode->age = 0;
 
-        if (ortu->fs != NULL)
-        { 
-            temp = ortu->fs;
-            while (temp->nb != NULL)
-            {
+        if (parent->fs != NULL) { 
+            temp = parent->fs;
+            while (temp->nb != NULL) {
                 temp = temp->nb;
             }
             temp ->nb = newnode;
         }
-        else
-        {
-            ortu->fs = newnode;
+        else {
+            parent->fs = newnode;
         }
+}
+
+bool isSingle(nbAddr Person) {
+	return Person->ps == NULL;
+}
+
+void setMate(nbAddr Person, infotype mate, int umur, bool sex) {
+
+	mateAddr pair;
+	if (!isSingle(Person)) {
+        printf("Orang ini sudah memiliki pasangan.\n");
+    } else {
+		pair=(Mate*) malloc(sizeof(Mate));
+        Person->ps = pair;
+		pair->nama = mate;
+		pair->age = umur;
+		pair->gender = sex;
+    }
 }
