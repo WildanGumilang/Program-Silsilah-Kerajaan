@@ -25,6 +25,7 @@ typedef struct royalTree{
 	infotype nama;
 	int age;
 	bool gender;
+	infotype parent;
 	nbAddr fs;
 	nbAddr nb;
 	nbAddr pr;
