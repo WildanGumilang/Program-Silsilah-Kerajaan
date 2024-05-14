@@ -58,6 +58,7 @@ bool isEmpty(nbAddr *node);
 
 bool isSingle(nbAddr Person);
 
+//modifikasi
 void setMate(nbAddr Person, infotype mate, ATRoot X, int umur, bool sex);
 
 bool isRoot(Root X, nbAddr node);
@@ -72,13 +73,15 @@ void showGarisSuksesi(Root X);
 
 void displayFamily(nbAddr X, int Level);
 
+//modifikasi
+void showDetailNode(Root X, ATRoot x, infotype node);
+
+//modifikasi
+void addTahun(int * tahun, int penambahan, Root X, ATRoot x);
+
 int countAnak(Root X ,nbAddr node);
 
-void showDetailNode(Root X,nbAddr node);
-
 int countPenerus(Root X, infotype nama);
-
-void addTahun(int * tahun, int penambahan, Root X, ATRoot x);
 
 //tree 2
 bool isEmptyAT(anAddr *node);
@@ -89,15 +92,11 @@ void insertNodeAT(infotype nama, bool gender, anAddr parent);
 
 anAddr searchNodeAT(ATRoot X,infotype nama);
 
-void setDeleteAT(anAddr person, ATRoot* X, int tahun);
+bool setDeleteAT(anAddr person, int tahun);
 
-//setmate
+//menghitung jumlah generasi kerajaan
 
-//addtahun
-
-//showdetailnode
-
-//jumlah generasi kerajaan
+//menyimpan daftar raja yang pernah menjabat
 
 void displayFamilyAT(anAddr X, int Level);
 

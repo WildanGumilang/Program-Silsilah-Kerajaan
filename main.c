@@ -95,6 +95,7 @@ int main() {
 					system("pause");
 				}else {
 					nbAddr pr;
+					anAddr prAT;
 					infotype child;
 					child = (infotype) malloc(sizeof(infotype));
 					parent = (infotype) malloc(sizeof(infotype));
@@ -105,6 +106,7 @@ int main() {
 						printf("\n\tMasukkan Nama Orang Tua dari Bangsawan : ");
 						scanf("%s", parent);
 						pr = searchNode(king,parent);
+						prAT = searchNodeAT(King,parent);
 						if(pr == NULL){
 							printf("\n\t'%s' Tidak Ada dalam Kerajaan, Silahkan Masukkan Nama Lain.\n", parent);
 						} else if(isSingle(pr)){
@@ -139,6 +141,7 @@ int main() {
 						gender = "Putri";
 					}
 					insertNode(child,G,pr);
+					insertNodeAT(child, G, prAT);
 					printf("\n\tPada tahun %d, telah lahir '%s', %s dari :\n\t\t\t-%s\n\t\t\t-%s .\n\n\t",tahun,child,gender,pr->nama,pr->ps->nama);
 					 system("pause");
 				}
@@ -218,7 +221,7 @@ int main() {
 			        system("cls");
 			        printf("\tNama Bangsawan : ");
 			        scanf("%s", namaNode);
-			        showDetailNode(king,namaNode);
+			        showDetailNode(king, King, namaNode);
 			    }
 			    break;
 			case '4':
@@ -234,7 +237,13 @@ int main() {
 				Delete = (infotype) malloc(sizeof(infotype));
 				printf("\tMasukkan Nama Bangsawan yang Akan Dibacok : ");
 				scanf( "%s", Delete);
-				deleteNode(&king,Delete);
+				if (deleteNode(&king,Delete)) {
+					printf("\tPembacokan Berhasil.\n");
+					anAddr delete = searchNodeAT(King, Delete);
+					if(setDeleteAT(delete, tahun)) {
+						printf("\tPeristiwa Ini Akan dikenang, %s Akan selalu diingat dalam Kerajaan Ini.\n\n", Delete);
+					}
+				}
 				system("pause");
 			}
 			break;
@@ -261,7 +270,7 @@ int main() {
 							system("pause");
 							break;
 						case '2':
-						
+							displayFamilyAT(King.root, 0);
 							system("pause");
 							break;
 						case '3':
@@ -275,7 +284,9 @@ int main() {
 							system("pause");
 							break;
 					}
+					break;
 				}
+				break;
 			case '6':
 				if (king.root == NULL) {
 					system("cls");
@@ -298,6 +309,7 @@ int main() {
 				}
 				break;
 			case '0':
+				printf("\n\tTERIMAKASIH\n\n\t");
 				return 0;
 			default:
 				printf("\n\tPilihan tidak ada, silahkan Pilih Lagi!\n\n\t");

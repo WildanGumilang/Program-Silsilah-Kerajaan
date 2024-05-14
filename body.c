@@ -300,15 +300,15 @@ void displayFamily(nbAddr X, int Level) {
                     printf("\t|--");
                 }
             }
-			textcolor(12);
             printf("%s\n", X->nama);
-			textcolor(7);
         }
         displayFamily(X->fs, Level + 1);
         displayFamily(X->nb, Level);
     }
 }
 
+
+//modifikasi
 void setMate(nbAddr Person, infotype mate, ATRoot X, int umur, bool sex) {
 	mateAddr pair;
 	if (!isSingle(Person)) {
@@ -323,6 +323,132 @@ void setMate(nbAddr Person, infotype mate, ATRoot X, int umur, bool sex) {
 		anAddr personAT = searchNodeAT(X, Person->nama);
 		personAT->pair = mate;
     }
+}
+
+//modifikasi
+void showDetailNode(Root X,ATRoot x, infotype node) {
+
+	nbAddr person;
+	person = searchNode(X, node);
+	if (person == NULL) {
+		anAddr personAT;
+		personAT = searchNodeAT(x, node);
+		if (personAT == NULL) {
+			printf("\n\tBangsawan Tidak Ditemukan, Atau Nama Bangsawan Salah.\n\n");
+			system("pause");
+		} else {
+			printf("\n\t=============================== DETAIL BANGSAWAN MATI ===============================\n\n");
+			
+			if (isRootAT(x,personAT)) {
+				printf("\tNama Bangsawan\t: %s\n", personAT->nama);
+			} else {
+				infotype gender;
+				if(personAT->gender == true){
+					gender = "son";
+				}else {
+					gender = "daughter";
+				}
+				printf("\tNama Bangsawan\t: %s %s of %s \n", personAT->nama,gender,personAT->parent);
+			}
+			if (personAT->pair == "") {
+				if (personAT->status == false) {
+					printf("\tStatus \t\t: Telah Wafat diumur %d pada tahun %d\n", personAT->age, personAT->ydeath);
+				} else {
+					printf("\tStatus \t\t: Masih Hidup, %d tahun\n", personAT->age);
+				}
+				printf("\tStatus \t\t: Belum Menikah\n", personAT->nama);
+			} else {
+				if (personAT->status == false) {
+					printf("\tStatus \t\t: Telah Wafat diumur %d pada tahun %d\n", personAT->age, personAT->ydeath);
+				} else {
+					printf("\tStatus \t\t: Masih Hidup, %d tahun\n", personAT->age);
+				}
+				printf("\tStatus \t\t: Sudah Menikah\n");
+				printf("\tPasangan \t: %s\n", personAT->pair);
+				printf("\n");
+			}
+			system("pause");
+		}
+	} else {
+		printf("\n\t=============================== DETAIL BANGSAWAN HIDUP ===============================\n\n");
+		
+		if (isRoot(X,person)) {
+			printf("\tNama Bangsawan\t: %s\n", person->nama);
+			printf("\tUsia\t\t: %d\n",person->age);
+		} else {
+			infotype gender;
+			printf("\tUsia\t\t: %d\n",person->age);
+			if(person->gender == true){
+				gender = "son";
+			}else {
+				gender = "daughter";
+			}
+			printf("\tNama Bangsawan\t: %s %s of %s \n", person->nama,gender,person->parent);
+			printf("\tPewaris Tahta \t: ke-%d\n", countPenerus(X, person->nama));
+		}
+		if (isSingle(person)) {
+			printf("\tStatus \t\t: Belum Menikah\n", person->nama);
+		} else {
+			printf("\tStatus \t\t: Sudah Menikah\n");
+			printf("\tPasangan \t: %s\n", person->ps->nama);
+			printf("\tUsia Pasangan \t: %d\n", person->ps->age);
+			int jumlahAnak = countAnak(X,person);
+			printf("\tJumlah Anak\t: %d\n", jumlahAnak);
+			printf("\n");
+		}
+		system("pause");
+	}
+}
+
+
+//modifikasi
+void addTahun(int * tahun, int penambahan, Root X, ATRoot x){
+	*tahun += penambahan;
+	nbAddr Pcur = X.root;
+	anAddr PcurAT = x.root;
+    Pcur->age = Pcur->age + penambahan;
+	if (PcurAT->status == true) {
+		PcurAT->age = PcurAT->age + penambahan;
+	}
+	if (Pcur->ps != NULL) {
+		Pcur->ps->age = Pcur->ps->age +  penambahan;
+	}
+	bool Resmi = true;
+	if(Pcur->fs != NULL) {
+		while (Pcur != NULL) {
+			if (Pcur->fs != 0 && Resmi) {
+				Pcur = Pcur->fs;
+				PcurAT = PcurAT->fs;
+				if(!isRoot(X,Pcur)){
+					Pcur->age = Pcur->age + penambahan;
+					if (PcurAT->status == true) {
+						PcurAT->age = PcurAT->age + penambahan;
+					}
+					if (Pcur->ps != NULL) {
+						Pcur->ps->age = Pcur->ps->age + penambahan;
+					}
+				}
+				
+			} else if (Pcur->nb != NULL) {
+				Pcur = Pcur->nb;
+				PcurAT = PcurAT->nb;
+				if(!isRoot(X,Pcur)){
+					Pcur->age = Pcur->age + penambahan;
+					if (PcurAT->status == true) {
+						PcurAT->age = PcurAT->age + penambahan;
+					}
+					if (Pcur->ps != NULL) {
+					Pcur->ps->age = Pcur->ps->age + penambahan;
+				}
+				}
+				Resmi = true;
+			} else {
+				Pcur = Pcur->pr;
+				PcurAT = PcurAT->pr;
+				Resmi = false;
+			}
+		}
+	} 
 }
 
 int countAnak(Root X ,nbAddr node) {
@@ -358,49 +484,6 @@ int countAnak(Root X ,nbAddr node) {
 	return index;
 }
 
-void showDetailNode(Root X,nbAddr node) {
-
-	nbAddr person;
-	person = searchNode(X, node);
-	if (person == NULL) {
-		printf("\n\tBangsawan Tidak Ditemukan, Atau Nama Bangsawan Salah.\n\n");
-		system("pause");
-
-
-
-
-		
-	} else {
-		printf("\n\t=============================== DETAIL BANGSAWAN ===============================\n\n");
-		
-		if (isRoot(X,person)) {
-			printf("\tNama Bangsawan\t: %s\n", person->nama);
-			printf("\tUsia\t\t: %d\n",person->age);
-		} else {
-			infotype gender;
-			printf("\tUsia\t\t: %d\n",person->age);
-			if(person->gender == true){
-				gender = "son";
-			}else {
-				gender = "daughter";
-			}
-			printf("\tNama Bangsawan\t: %s %s of %s \n", person->nama,gender,person->parent);
-			printf("\tPewaris Tahta \t: ke-%d\n", countPenerus(X, person->nama));
-		}
-		if (isSingle(person)) {
-			printf("\tStatus \t\t: Belum Menikah\n", person->nama);
-		} else {
-			printf("\tStatus \t\t: Sudah Menikah\n");
-			printf("\tPasangan \t: %s\n", person->ps->nama);
-			printf("\tUsia Pasangan \t: %d\n", person->ps->age);
-			int jumlahAnak = countAnak(X,person);
-			printf("\tJumlah Anak\t: %d\n", jumlahAnak);
-			printf("\n");
-		}
-		system("pause");
-	}
-}
-
 int countPenerus(Root X, infotype nama) {
 	nbAddr Pcur;
 	bool Resmi;
@@ -433,47 +516,6 @@ int countPenerus(Root X, infotype nama) {
 		}
 	} 
 }
-
-void addTahun(int * tahun, int penambahan, Root X, ATRoot x){
-	*tahun += penambahan;
-	nbAddr Pcur = X.root;
-	anAddr PcurAT =x.root;
-    Pcur->age = Pcur->age + penambahan;
-	PcurAT->age = PcurAT->age + penambahan;
-	if (Pcur->ps != NULL) {
-		Pcur->ps->age = Pcur->ps->age +  penambahan;
-	}
-	bool Resmi = true;
-	if(Pcur->fs != NULL) {
-		while (Pcur != NULL) {
-			if (Pcur->fs != 0 && Resmi) {
-				Pcur = Pcur->fs;
-				if(!isRoot(X,Pcur)){
-					Pcur->age = Pcur->age + penambahan;
-					PcurAT->age = PcurAT->age + penambahan;
-					if (Pcur->ps != NULL) {
-						Pcur->ps->age = Pcur->ps->age +  penambahan;
-					}
-				}
-				
-			} else if (Pcur->nb != NULL) {
-				Pcur = Pcur->nb;
-				if(!isRoot(X,Pcur)){
-					Pcur->age = Pcur->age + penambahan;
-					PcurAT->age = PcurAT->age + penambahan;
-					if (Pcur->ps != NULL) {
-					Pcur->ps->age = Pcur->ps->age +  penambahan;
-				}
-				}
-				Resmi = true;
-			} else {
-				Pcur = Pcur->pr;
-				Resmi = false;
-			}
-		}
-	} 
-}
-
 
 
 // tree 2
@@ -549,11 +591,19 @@ anAddr searchNodeAT(ATRoot X,infotype nama) {
 	}
 }
 
-void setDeleteAT(anAddr person, ATRoot* X, int tahun) {
+bool setDeleteAT(anAddr person, int tahun) {
     if (person != NULL) {
         person->status = false;
         person->ydeath = tahun;
-    }
+		if (person->status == false) {
+			printf("\tPembacokan BERHASIL.\n");
+		} else {
+			printf("\tPembacokan GAGAL.\n");
+		}
+		return true;
+    } else {
+		return false;
+	}
 }
 
 void displayFamilyAT(anAddr X, int Level) {
@@ -569,13 +619,10 @@ void displayFamilyAT(anAddr X, int Level) {
                 }
             }
             if (X->status) {
-				textcolor(10); // 10 adalah kode warna untuk hijau di conio.h
-				printf("%s\n", X->nama);
+				printf("%s (hidup)\n", X->nama);
 			} else {
-				textcolor(12); // 12 adalah kode warna untuk merah di conio.h
-				printf("%s\n", X->nama);
+				printf("%s (wafat)\n", X->nama);
 			}
-			textcolor(7);
 		}
         displayFamilyAT(X->fs, Level + 1);
         displayFamilyAT(X->nb, Level);
