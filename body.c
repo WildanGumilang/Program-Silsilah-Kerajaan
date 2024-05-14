@@ -86,3 +86,216 @@ void setMate(nbAddr Person, infotype mate, int umur, bool sex) {
 		pair->gender = sex;
     }
 }
+
+void deleteNode(Root *X, infotype nama)
+{
+    nbAddr nDel;
+    bool del = true;
+    nDel = searchNode(*X,nama);
+    if (nDel == NULL)
+    {
+    	 printf("\n\tNama bangsawan tidak ditemukan\n\t", nama);
+		 system("pause");
+		 del = false;
+    } else if(isRoot(*X,nDel)){ // JIKA RAJA WAFAT
+		if (nDel->gender)
+		{
+			printf("\tRaja telah wafat ...\n");
+		} else{
+			printf("\tRatu telah wafat ...\n");	
+		}
+        
+
+        nbAddr nextKing = nDel->fs;
+		(*X).root = nextKing;
+		if(nextKing == NULL){
+		printf("\tTidak ada penerus kerjaan!\n\n\t");
+		} else {
+			printf("\tKini pemimpin baru telah diangkat, yakni %s\n", (*X).root->nama);
+			printf("\tEra %s telah dimulai!\n\n\t",(*X).root->nama);
+		
+		nextKing->pr = NULL;
+		if (nextKing->fs != NULL) 
+		{
+			nbAddr Current = nDel;
+			nbAddr brother = Current->nb;
+			nbAddr myBro;
+			Current = Current->fs;
+			bool loop = true;
+			while (Current != NULL && loop)
+			{
+					if(Current->nb != NULL){
+						myBro = Current->nb;
+					} else {
+						myBro = NULL;
+					}
+					
+
+					if (Current->fs == NULL)
+					{
+						if (Current->nb != NULL)
+						{
+							Current->fs = Current->nb;
+							nbAddr bro =  Current->nb;
+							while (bro != NULL)
+							{
+								bro->pr = Current;
+								bro = bro->nb;
+							}
+							loop = false;
+						}
+					}
+						
+						Current->nb = brother;
+						nbAddr bro =  Current->nb;
+						while (bro != NULL)
+						{
+							bro->pr = Current->pr;
+							bro = bro->nb;
+						}
+						
+						brother = myBro;
+					
+					Current = Current->fs;
+			}
+			
+
+		} else if (nextKing->nb != NULL){
+						nextKing->fs = nextKing->nb;
+						nextKing->nb->pr = nextKing; 
+						nbAddr bro =  nextKing->nb;
+						while (bro != NULL)
+						{
+							bro->pr = nextKing;
+							bro = bro->nb;
+						}
+						nextKing->nb = NULL;
+			
+		} 
+	}
+	}
+	
+	// JIKA YANG MATI ADALAH ANAK PERTAMA
+	else if(nDel->pr->fs == nDel){ 
+		printf("\n\n\tBangsawan %s Telah Meninggal.\n\n\t", nDel->nama );
+		if(nDel->fs != NULL){ 				   // Jika nDel memiliki anak 
+			 // fs merupakan anak pertama nDel
+			nDel->fs->pr = nDel->pr; // Orang tua dari fs diganti menjadi orang tua nDel
+			nDel->pr->fs = nDel->fs; // Anak pertama dari Orang tua nDel menjadi fs
+		
+			nbAddr Current = nDel;
+			nbAddr brother = Current->nb;
+			nbAddr myBro = Current->nb;
+			Current = Current->fs;
+			bool loop = true;
+			while (Current != NULL && loop)
+			{
+					if(Current->nb != NULL){
+						myBro = Current->nb;
+					} else {
+						myBro = NULL;
+					}
+					
+
+					if (Current->fs == NULL)
+					{
+						if (Current->nb != NULL)
+						{
+							Current->fs = Current->nb;
+							nbAddr bro =  Current->nb;
+							while (bro != NULL)
+							{
+								bro->pr = Current;
+								bro = bro->nb;
+							}
+							loop = false;
+						}
+					}
+						
+						Current->nb = brother;
+						nbAddr bro =  Current->nb;
+						while (bro != NULL)
+						{
+							bro->pr = Current->pr;
+							bro = bro->nb;
+						}
+						
+						brother = myBro;
+					
+					Current = Current->fs;
+			}
+			
+	} else {
+		if(nDel->nb != NULL){
+			nDel->pr->fs = nDel->nb;
+		} else {
+			nDel->pr->fs = NULL;
+		}
+	}
+
+	} // JIKA YANG MATI BUKAN ANAK PERTAMA 
+	else if(nDel->pr->fs != nDel){
+		printf("\n\n\tBangsawan %s Telah Meninggal.\n\n\t", nDel->nama );
+		nbAddr bDelete = nDel->pr->fs;
+		while (bDelete->nb != nDel)
+		{
+			bDelete = bDelete->nb;
+		}
+		if (nDel->fs != NULL ) // jika nDel memiliki anak
+		{
+			bDelete->nb = nDel->fs;
+			nbAddr Current = nDel;
+			nbAddr brother = Current->nb;
+			nbAddr myBro;
+			Current = Current->fs;
+		bool loop = true;
+			while (Current != NULL && loop)
+			{
+					if(Current->nb != NULL){
+						myBro = Current->nb;
+					} else {
+						myBro = NULL;
+					}
+					
+
+					if (Current->fs == NULL)
+					{
+						if (Current->nb != NULL)
+						{
+							Current->fs = Current->nb;
+							nbAddr bro =  Current->nb;
+							while (bro != NULL)
+							{
+								bro->pr = Current;
+								bro = bro->nb;
+							}
+							loop = false;
+						}
+					}
+						
+						Current->nb = brother;
+						nbAddr bro =  Current->nb;
+						while (bro != NULL)
+						{
+							bro->pr = Current->pr;
+							bro = bro->nb;
+						}
+						
+						brother = myBro;
+					
+					Current = Current->fs;
+			}
+			
+				
+				} else if (nDel->fs == NULL){
+					bDelete->nb = nDel->nb;
+		}
+	}
+	if (del)
+	{
+	nDel->fs = NULL;
+	nDel->nb = NULL;
+	nDel->pr = NULL;
+	free(nDel);
+	}
+}
