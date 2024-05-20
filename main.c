@@ -367,7 +367,7 @@ int main() {
 					printf("\t[1] Tampilkan Garis Suksesi\n");
 					printf("\t[2] Tampilkan Keseluruhan Silsilah Kerajaan\n");
 					printf("\t[3] Tampilkan Timeline Struktur Kerajaan\n");
-					printf("\t[4] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
+					printf("\t[4] Tampilkan Bangsawan gugur yang Pernah Menjadi Pemimpin\n");
 					printf("\t[0] Kembali\n\n");
 					printf("\tMasukkan pilihan : ");
 
