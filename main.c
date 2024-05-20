@@ -358,7 +358,8 @@ int main() {
 						printf("\tTahun\t\t\t: %d\n", tahun);
 						printf("\tNama Kerajaan\t\t: Kingdom of the Netherlands\n");
 						printf("\tNama Raja/Ratu\t\t: %s \n", king.root->nama);
-						printf("\tGenerasi Terakhir\t: Generasi ke-%d\n\n", countGenerasi(King));
+						printf("\tGenerasi Terakhir\t: Generasi ke-%d\n", countGenerasi(King));
+						printf("\tJumlah Bangsawan Aktif\t: %d\n\n", countNode(king.root));
 					}
 					printf("\t=============================================================\n");
 					printf("\t=                    DETAIL LAIN TENTANG KERAJAAN            =\n");

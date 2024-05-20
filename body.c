@@ -747,3 +747,34 @@ void printFileContent(const char *filename) {
 
 	system("pause");
 }
+
+int countNode(nbAddr root) {
+    if (root == NULL) {
+        return 0;
+    }
+    nbAddr Pcur = root;
+    int count = 0;
+    bool Resmi = true;
+    while (Pcur != NULL) {
+        if (Resmi) {
+            count++;
+        }
+        if (Pcur->fs != NULL && Resmi) {
+            Pcur = Pcur->fs;
+        } else if (Pcur->nb != NULL) {
+            Pcur = Pcur->nb;
+            Resmi = true;
+        } else {
+            Pcur = Pcur->pr;
+            Resmi = false;
+            while (Pcur != NULL && Pcur->nb == NULL) {
+                Pcur = Pcur->pr;
+            }
+            if (Pcur != NULL) {
+                Pcur = Pcur->nb;
+                Resmi = true;
+            }
+        }
+    }
+    return count;
+}

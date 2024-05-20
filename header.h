@@ -110,4 +110,6 @@ void saveTreeToFile(Root tree, const char *filename, int tahun, infotype nama, b
 
 void printFileContent(const char *filename);
 
+int countNode(nbAddr root);
+
 #endif
