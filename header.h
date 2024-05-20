@@ -79,11 +79,11 @@ void showDetailNode(Root X, ATRoot x, infotype node);
 //modifikasi
 void addTahun(int * tahun, int penambahan, Root X, ATRoot x);
 
-//buat
 int countAnak(Root X ,nbAddr node);
 
-//buat
 int countPenerus(Root X, infotype nama);
+
+int countNode(nbAddr root);
 
 //tree 2
 bool isEmptyAT(anAddr *node);
@@ -109,7 +109,5 @@ void writeFamilyToFile(FILE *file, nbAddr X, int Level);
 void saveTreeToFile(Root tree, const char *filename, int tahun, infotype nama, bool tambah);
 
 void printFileContent(const char *filename);
-
-int countNode(nbAddr root);
 
 #endif
