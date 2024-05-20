@@ -67,7 +67,7 @@ nbAddr searchNode(Root X,infotype nama);
 
 void insertNode(infotype nama, bool gender, nbAddr parent);
 
-bool deleteNode(Root * X, infotype nama);
+bool deleteNode(Root * X, infotype nama, int tahun);
 
 void showGarisSuksesi(Root X);
 
@@ -79,8 +79,10 @@ void showDetailNode(Root X, ATRoot x, infotype node);
 //modifikasi
 void addTahun(int * tahun, int penambahan, Root X, ATRoot x);
 
+//buat
 int countAnak(Root X ,nbAddr node);
 
+//buat
 int countPenerus(Root X, infotype nama);
 
 //tree 2
@@ -94,10 +96,18 @@ anAddr searchNodeAT(ATRoot X,infotype nama);
 
 bool setDeleteAT(anAddr person, int tahun);
 
-//menghitung jumlah generasi kerajaan
-
-//menyimpan daftar raja yang pernah menjabat
+void saveNodeToFile(const char* filename, nbAddr node, int tahun);
 
 void displayFamilyAT(anAddr X, int Level);
+
+int countGenerasi(ATRoot x);
+
+void saveNodeToFile(const char* filename, nbAddr node, int tahun);
+
+void writeFamilyToFile(FILE *file, nbAddr X, int Level);
+
+void saveTreeToFile(Root tree, const char *filename, int tahun, infotype nama, bool tambah);
+
+void printFileContent(const char *filename);
 
 #endif

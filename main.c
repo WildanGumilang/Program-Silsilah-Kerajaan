@@ -92,6 +92,8 @@ int main() {
 					head->ydeath = 0;
 					King.root = head;
 					printf("\n\tSelamat Kepada %s Telah Menjadi %s di Kerajaan Ini.\n\n\t", king.root->nama,status);
+					const char* filetree = "sejarah_kerajaan.txt";
+					saveTreeToFile(king, filetree, tahun, name, true);
 					system("pause");
 				}else {
 					nbAddr pr;
@@ -143,7 +145,9 @@ int main() {
 					insertNode(child,G,pr);
 					insertNodeAT(child, G, prAT);
 					printf("\n\tPada tahun %d, telah lahir '%s', %s dari :\n\t\t\t-%s\n\t\t\t-%s .\n\n\t",tahun,child,gender,pr->nama,pr->ps->nama);
-					 system("pause");
+					const char* filetree = "sejarah_kerajaan.txt";
+					saveTreeToFile(king, filetree, tahun, child, true);
+					system("pause");
 				}
 				break;
 			case '2':
@@ -237,8 +241,12 @@ int main() {
 				Delete = (infotype) malloc(sizeof(infotype));
 				printf("\tMasukkan Nama Bangsawan yang Akan Dibacok : ");
 				scanf( "%s", Delete);
-				if (deleteNode(&king,Delete)) {
+				if (deleteNode(&king,Delete, tahun)) {
 					printf("\tPembacokan Berhasil.\n");
+
+					const char* filetree = "sejarah_kerajaan.txt";
+					saveTreeToFile(king, filetree, tahun, Delete, false);
+
 					anAddr delete = searchNodeAT(King, Delete);
 					if(setDeleteAT(delete, tahun)) {
 						printf("\tPeristiwa Ini Akan dikenang, %s Akan selalu diingat dalam Kerajaan Ini.\n\n", Delete);
@@ -252,14 +260,15 @@ int main() {
 				for(;;) {
 					system("cls");
 					printf("\n\t============= DETAIL KERAJAAN =============\n");
-					printf("\tTahun\t\t: %d\n",tahun);
-					printf("\tNama Kerajaan\t: Kingdom of the Netherlands\n");	
-					printf("\tNama Raja/Ratu\t: %s \n", king.root->nama);
-					printf("\tJumlah Generasi di Kerajaan\t:\n\n");
+					printf("\tTahun\t\t\t: %d\n",tahun);
+					printf("\tNama Kerajaan\t\t: Kingdom of the Netherlands\n");	
+					printf("\tNama Raja/Ratu\t\t: %s \n", king.root->nama);
+					printf("\tGenerasi Terakhir di Kerajaan Ini: Generasi ke-%d\n\n", countGenerasi(King));
 					printf("\t=============== DETAIL LAIN TENTANG KERAJAAN ===============\n");
 					printf("\t[1] Tampilkan Garis Suksesi\n");
 					printf("\t[2] Tampilkan Keseluruhan Silsilah Kerajaan\n");
-					printf("\t[3] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
+					printf("\t[3] Tampilkan Timeline Struktur Kerajaan\n");
+					printf("\t[4] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
 					printf("\t[0] Kembali\n\n");
 					printf("\tMasukkan pilihan : ");
 					gets(pilih);
@@ -274,7 +283,13 @@ int main() {
 							system("pause");
 							break;
 						case '3':
-							
+							const char* filetree = "sejarah_kerajaan.txt";
+							printFileContent(filetree);
+							system("pause");
+							break;
+						case '4':
+							const char* filenode = "daftar_raja.txt";
+							printFileContent(filenode);
 							system("pause");
 							break;
 						case '0':

@@ -74,7 +74,7 @@ void insertNode(infotype nama, bool gender, nbAddr parent) {
 }
 
 
-bool deleteNode(Root * X, infotype nama){
+bool deleteNode(Root * X, infotype nama, int tahun){
   nbAddr nDel;
   bool del = true;
   nDel = searchNode(*X,nama);
@@ -90,6 +90,8 @@ bool deleteNode(Root * X, infotype nama){
 			printf("\tRatu telah wafat ...\n");	
 		}
 		
+		const char* filenode = "daftar_raja.txt";
+		saveNodeToFile(filenode, nDel, tahun);
 		
 		nbAddr nextKing = nDel->fs;
 		(*X).root = nextKing;
@@ -268,13 +270,15 @@ void showGarisSuksesi(Root X) {
 			if (Pcur->fs != 0 && Resmi) {
 				Pcur = Pcur->fs;
 				if (!isRoot(X,Pcur)) {
-					printf("\t%d. %s\n", index, Pcur->nama);
+					printf("\t%d. \033[32m%s\n", index, Pcur->nama);
+					printf("\033[0m"); // Reset warna ke default
 					index++;
 				}
 			} else if (Pcur->nb != NULL) {
 				Pcur = Pcur->nb;
 				if (!isRoot(X,Pcur)) {
-					printf("\t%d. %s\n", index, Pcur->nama);
+					printf("\t%d. \033[32m%s\n", index, Pcur->nama);
+					printf("\033[0m"); // Reset warna ke default
 					index++;
 				}
 				Resmi = true;
@@ -300,7 +304,8 @@ void displayFamily(nbAddr X, int Level) {
                     printf("\t|--");
                 }
             }
-            printf("%s\n", X->nama);
+            printf("\033[32m%s\n", X->nama);
+			printf("\033[0m"); // Reset warna ke default
         }
         displayFamily(X->fs, Level + 1);
         displayFamily(X->nb, Level);
@@ -619,12 +624,116 @@ void displayFamilyAT(anAddr X, int Level) {
                 }
             }
             if (X->status) {
-				printf("%s (hidup)\n", X->nama);
-			} else {
-				printf("%s (wafat)\n", X->nama);
-			}
+                printf("\033[32m%s\n", X->nama); // Warna hijau
+            } else {
+                printf("\033[31m%s\n", X->nama); // Warna merah
+            }
+            printf("\033[0m"); // Reset warna ke default
 		}
         displayFamilyAT(X->fs, Level + 1);
         displayFamilyAT(X->nb, Level);
     }
+}
+
+int countGenerasi(ATRoot x) {
+    if (x.root == NULL) return 0;
+
+    int depth = 1;
+    nbAddr currentNode = x.root;
+    int currentDepth = 1;
+
+    while (currentNode != NULL) {
+        if (currentNode->fs != NULL) {
+            currentNode = currentNode->fs;
+            currentDepth++;
+            if (currentDepth > depth) {
+                depth = currentDepth;
+            }
+        } else {
+            while (currentNode != NULL && currentNode->nb == NULL) {
+                currentNode = currentNode->pr;
+                currentDepth--;
+            }
+            if (currentNode != NULL) {
+                currentNode = currentNode->nb;
+            }
+        }
+    }
+
+    return depth;
+}
+
+void saveNodeToFile(const char* filename, nbAddr node, int tahun) {
+	FILE *fp;
+    fp = fopen(filename, "a"); //menggunakan mode akses append untuk menambahkan ke file tanpa menghapus isinya
+    if (node == NULL) {
+		printf("Node Tidak ada.\n");
+		return;
+	} 
+    if (fp == NULL) {
+		printf("Gagal Membuka file.\n");
+	} else {
+		fprintf(fp, "Nama\t: %s\n", node->nama);
+		fprintf(fp, "Umur\t: %d\n", node->age);
+		fprintf(fp, "Gender\t: %s\n", node->gender ? "Laki-laki" : "Perempuan");
+		fprintf(fp, "Nama Pasangan: %s\n", (node->ps != NULL) ? node->ps->nama : "Tidak Ada");
+		fprintf(fp, "Tahun Kematian: %d\n", tahun);
+		fprintf(fp, "-----------------------------------------------\n");
+		fclose(fp);
+	}
+}
+
+void writeFamilyToFile(FILE *file, nbAddr X, int Level) {
+    if (X != NULL) {
+        fprintf(file, "\t");
+        if (X->nama != NULL && strcmp(X->nama, "") != 0) {
+            int i;
+            for (i = 1; i <= Level; i++) {
+                if (i < Level) {
+                    fprintf(file, "\t|  ");
+                } else {
+                    fprintf(file, "\t|--");
+                }
+            }
+            fprintf(file, "%s\n", X->nama);
+        }
+        writeFamilyToFile(file, X->fs, Level + 1);
+        writeFamilyToFile(file, X->nb, Level);
+    }
+}
+
+void saveTreeToFile(Root tree, const char *filename, int tahun, infotype nama, bool tambah) {
+    FILE *file = fopen(filename, "a");
+    if (file == NULL) {
+        perror("Gagal membuka file.\n");
+        return;
+    }
+
+    fprintf(file, "Tahun : %d\n", tahun);
+    if (tambah) {
+        fprintf(file, "Telah lahir seorang bangsawan dengan nama : %s\n", nama);
+    } else {
+        fprintf(file, "Telah gugur seorang bangsawan dengan nama : %s\n", nama);
+    }
+    writeFamilyToFile(file, tree.root, 0);
+    fprintf(file, "-----------------------------------------------------------\n");
+
+    fclose(file);
+}
+
+void printFileContent(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Gagal membuka file.\n");
+        return;
+    }
+	system("cls");
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+
+    fclose(file);
+
+	system("pause");
 }
