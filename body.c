@@ -71,6 +71,73 @@ void insertNode(infotype nama, bool gender, nbAddr parent) {
         }
 }
 
+void insertKing(Root *king, ATRoot *King, int tahun) {
+    infotype name = (infotype) malloc(sizeof(infotype));
+	infotype parent = (infotype) malloc(sizeof(infotype));
+    char jk;
+    bool G;
+
+    system("cls");
+    printf("\n\t======================== TAMBAH BANGSAWAN ========================\n\n");
+    printf("\tMasukkan Nama Raja atau Ratu: ");
+    scanf("%s", name);
+
+    do {
+        printf("\tJenis Kelamin (L/P): ");
+        scanf(" %c", &jk);
+        if (jk != 'L' && jk != 'P' && jk != 'l' && jk != 'p') {
+            printf("\tJenis Kelamin Tidak Valid, Silahkan Masukkan yang Sesuai.\n");
+        }
+    } while (jk != 'L' && jk != 'P' && jk != 'l' && jk != 'p');
+
+    int umur;
+    do {
+        printf("\tUsia: ");
+        scanf("%d", &umur);
+        if (umur < 40) {
+            printf("\tRaja atau Ratu Pertama Minimal Berusia 40 Tahun.\n");
+        }
+    } while (umur < 40);
+
+    const char *status;
+    if (jk == 'L' || jk == 'l') {
+        G = true;
+        status = "Raja";
+    } else if (jk == 'P' || jk == 'p') {
+        G = false;
+        status = "Ratu";
+    }
+
+    // Tree 1
+    nbAddr lead = (TNode *)malloc(sizeof(TNode));
+    lead->nama = name;
+    lead->gender = G;
+    lead->age = umur;
+    lead->fs = NULL;
+    lead->nb = NULL;
+    lead->pr = NULL;
+    lead->ps = NULL;
+    king->root = lead;
+
+    // Tree 2
+    anAddr head = (ANode *)malloc(sizeof(ANode));
+    head->nama = name;
+    head->gender = G;
+    head->age = umur;
+    head->fs = NULL;
+    head->nb = NULL;
+    head->pr = NULL;
+    head->pair = "";
+    head->status = true;
+    head->ydeath = 0;
+    King->root = head;
+
+    printf("\n\tPujian tinggi bagi %s yang kini memegang peran sebagai %s dalam sejarah Kerajaan ini.\n\n\t", king->root->nama, status);
+
+    const char *filetree = "sejarah_kerajaan.txt";
+    saveTreeToFile(*king, filetree, tahun, name, true);
+    system("pause");
+}
 
 bool deleteNode(Root * X, infotype nama, int tahun){
   nbAddr nDel;
@@ -343,39 +410,7 @@ void showDetailNode(Root X, ATRoot x, infotype node) {
 	if (person == NULL) {
 		anAddr personAT;
 		personAT = searchNodeAT(x, node);
-		if (personAT == NULL) {
-			printf("\n\t========================= DETAIL BANGSAWAN TIDAK DITEMUKAN =========================\n\n");
-			printf("\t\tBangsawan tidak ditemukan atau nama Bangsawan salah.\n\n");
-			system("pause");
-		} else {
-			printf("\n\t========================= DETAIL BANGSAWAN MATI =========================\n\n");
-			
-			if (isRootAT(x, personAT)) {
-				printf("\tNama Bangsawan\t: \033[31m%s\033[0m\n", personAT->nama);
-				printf("\033[0m");
-			} else {
-				infotype gender = (personAT->gender == true) ? "son" : "daughter";
-				printf("\tNama Bangsawan\t: \033[31m%s\033[0m %s of %s \n", personAT->nama, gender, personAT->parent);
-			}
-			if (personAT->pair == "") {
-				if (personAT->status == false) {
-					printf("\tStatus \t\t: Telah Wafat di usia %d pada tahun %d\n", personAT->age, personAT->ydeath);
-				} else {
-					printf("\tStatus \t\t: Masih Hidup, %d tahun\n", personAT->age);
-				}
-				printf("\tStatus \t\t: Belum Menikah\n");
-			} else {
-				if (personAT->status == false) {
-					printf("\tStatus \t\t: Telah Wafat di usia %d pada tahun %d\n", personAT->age, personAT->ydeath);
-				} else {
-					printf("\tStatus \t\t: Masih Hidup, %d tahun\n", personAT->age);
-				}
-				printf("\tStatus \t\t: Sudah Menikah\n");
-				printf("\tPasangan \t: %s\n", personAT->pair);
-				printf("\n");
-			}
-			system("pause");
-		}
+		showDetailNodeMati(X, x, node, personAT);
 	} else {
 		printf("\n\t========================= DETAIL BANGSAWAN HIDUP =========================\n\n");
 		
@@ -777,4 +812,238 @@ int countNode(nbAddr root) {
         }
     }
     return count;
+}
+
+void insertBangsawan(Root *king, ATRoot *King, int tahun) {
+    infotype name = (infotype)malloc(100 * sizeof(char));
+    infotype parent = (infotype)malloc(100 * sizeof(char));
+    char jk;
+    bool G;
+
+    nbAddr pr;
+    anAddr prAT;
+    infotype child = (infotype)malloc(100 * sizeof(char));
+
+    do {
+        system("cls");
+        printf("\n\t============================================================\n");
+        printf("\t=                  TAMBAH BANGSAWAN                         =\n");
+        printf("\t============================================================\n\n");
+        printf("\tMasukkan Nama Orang Tua dari Bangsawan: ");
+        scanf("%s", parent);
+        pr = searchNode(*king, parent);
+        prAT = searchNodeAT(*King, parent);
+        if (pr == NULL) {
+            printf("\n\t'%s' Tidak Ada dalam Kerajaan, Silahkan Masukkan Nama Lain.\n", parent);
+        } else if (isSingle(pr)) {
+            printf("\n\t%s Belum Menikah, Belum Bisa Memiliki Anak.\n", pr->nama);
+        }
+    } while (pr == NULL || isSingle(pr));
+
+    do {
+        printf("\n\tNama Bangsawan: ");
+        scanf("%s", child);
+        if (searchNode(*king, child) != NULL) {
+            printf("\n\tNama Sudah Ada dalam Kerajaan, Bangsawan Tidak diperbolehkan Memiliki Nama yang Sama. Silahkan Masukkan Nama Lain.\n");
+        }
+    } while (searchNode(*king, child) != NULL);
+
+    do {
+        printf("\tJenis kelamin (L/P): ");
+        scanf(" %c", &jk);
+        if (jk != 'L' && jk != 'P' && jk != 'l' && jk != 'p') {
+            printf("\n\tJenis Kelamin Tidak Valid, Silahkan Masukkan yang Sesuai.\n");
+        }
+    } while (jk != 'L' && jk != 'P' && jk != 'l' && jk != 'p');
+
+    infotype gender;
+    if (jk == 'L' || jk == 'l') {
+        G = true;
+        gender = "Putra";
+    } else if (jk == 'P' || jk == 'p') {
+        G = false;
+        gender = "Putri";
+    }
+    insertNode(child, G, pr);
+    insertNodeAT(child, G, prAT);
+
+    printf("\n\t=========================================\n");
+    printf("\t=  Pada tahun %d, telah lahir '%s', %s dari :\n", tahun, child, gender);
+    printf("\t=  - %s\n", pr->nama);
+    printf("\t=  - %s\n", pr->ps->nama);
+    printf("\t=========================================\n\n");
+
+    const char* filetree = "sejarah_kerajaan.txt";
+    saveTreeToFile(*king, filetree, tahun, child, true);
+    system("pause");
+}
+
+void insertMate(Root x, ATRoot X, int tahun) {
+
+	char jk;
+	infotype bride;
+	bride = (infotype) malloc(sizeof(infotype));
+	nbAddr mates;
+	mateAddr pair;
+	infotype soulmate;
+	soulmate = (infotype) malloc(sizeof(infotype));
+    int umur;
+
+    system("cls");
+    printf("\n\t==============================================================\n");
+    printf("\t=                 MEMILIH PASANGAN                             =\n");
+    printf("\t==============================================================\n\n");
+    do {
+        printf("\tMasukkan Nama Bangsawan: ");
+        scanf("%s", bride);
+        mates = searchNode(x, bride);
+        if (mates == NULL) {
+            printf("\n\tNama '%s' tidak ditemukan dalam Kerajaan. Masukkan nama lain.\n", bride);
+        } else if (mates->ps != NULL) {
+            printf("\n\t%s sudah memiliki pasangan. Tidak dapat menikah lagi.\n", bride);
+            system("pause");
+            return;
+        } else if (mates->age < 20) {
+            printf("\n\tUsia minimal untuk menikah adalah 20 tahun.\n");
+        }
+    } while (mates == NULL || mates->age < 20);
+
+    if (mates->ps != NULL) {
+        return;
+    }
+
+    if (mates->gender == false) {
+        printf("\tMasukkan Nama Suami Bangsawan: ");
+    } else {
+        printf("\tMasukkan Nama Istri Bangsawan: ");
+    }
+    scanf("%s", soulmate);
+
+    do {
+        printf("\tMasukkan Usia Pasangan: ");
+        scanf("%d", &umur);
+        if (umur < 18) {
+            printf("\n\tUsia minimal pasangan adalah 18 tahun. Masukkan usia yang sesuai.\n");
+        }
+    } while (umur < 18);
+
+    do {
+        printf("\tMasukkan Jenis Kelamin Pasangan (L/P): ");
+        scanf(" %c", &jk);
+        if (jk != 'L' && jk != 'P' && jk != 'l' && jk != 'p') {
+            printf("\n\tJenis Kelamin tidak valid. Masukkan yang sesuai (L/P).\n");
+        }
+    } while (jk != 'L' && jk != 'P' && jk != 'l' && jk != 'p');
+
+    setMate(mates, soulmate, X, umur, jk);
+    printf("\n\tPada tahun %d, '%s' dan '%s' resmi menikah.\n\n\t", tahun, bride, soulmate);
+    system("pause");
+}
+
+void showDetailNodeMati(Root x, ATRoot X, infotype nama, anAddr person) {
+    anAddr personAT = person;
+
+    if (personAT == NULL) {
+        printf("\n\t========================= DETAIL BANGSAWAN TIDAK DITEMUKAN =========================\n\n");
+        printf("\t\tBangsawan tidak ditemukan atau nama Bangsawan salah.\n\n");
+        system("pause");
+    } else {
+        printf("\n\t========================= DETAIL BANGSAWAN MATI =========================\n\n");
+
+        if (isRootAT(X, personAT)) {
+            printf("\tNama Bangsawan\t: \033[31m%s\033[0m\n", personAT->nama);
+            printf("\033[0m");
+        } else {
+            infotype gender = (personAT->gender == true) ? "son" : "daughter";
+            printf("\tNama Bangsawan\t: \033[31m%s\033[0m %s of %s \n", personAT->nama, gender, personAT->parent);
+        }
+        if (personAT->pair == NULL || strcmp(personAT->pair, "") == 0) {
+            if (personAT->status == false) {
+                printf("\tStatus \t\t: Telah Wafat di usia %d pada tahun %d\n", personAT->age, personAT->ydeath);
+            } else {
+                printf("\tStatus \t\t: Masih Hidup, %d tahun\n", personAT->age);
+            }
+            printf("\tStatus \t\t: Belum Menikah\n");
+        } else {
+            if (personAT->status == false) {
+                printf("\tStatus \t\t: Telah Wafat di usia %d pada tahun %d\n", personAT->age, personAT->ydeath);
+            } else {
+                printf("\tStatus \t\t: Masih Hidup, %d tahun\n", personAT->age);
+            }
+            printf("\tStatus \t\t: Sudah Menikah\n");
+            printf("\tPasangan \t: %s\n", personAT->pair);
+            printf("\n");
+        }
+        system("pause");
+    }
+}
+
+void deleteBangsawan(Root* x, ATRoot X, infotype Delete, int tahun) {
+    if (deleteNode(x, Delete, tahun)) {
+        const char* filetree = "sejarah_kerajaan.txt";
+        saveTreeToFile(*x, filetree, tahun, Delete, false);
+
+        anAddr deleteAT = searchNodeAT(X, Delete);
+        if (setDeleteAT(deleteAT, tahun)) {
+            printf("\tPeristiwa Ini Akan dikenang, %s Akan selalu diingat dalam Kerajaan Ini.\n\n", Delete);
+        }
+    }
+}
+
+void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh) {
+    char pilih[10];
+    for (;;) {
+        system("cls");
+        if (!runtuh) {
+            printf("\n\t=============================================================\n");
+            printf("\t=                       DETAIL KERAJAAN                      =\n");
+            printf("\t=============================================================\n");
+            printf("\tTahun\t\t\t: %d\n", tahun);
+            printf("\tNama Kerajaan\t\t: Kingdom of the Netherlands\n");
+            printf("\tNama Raja/Ratu\t\t: %s \n", x.root->nama);
+            printf("\tGenerasi Terakhir\t: Generasi ke-%d\n", countGenerasi(X));
+            printf("\tJumlah Bangsawan Aktif\t: %d\n\n", countNode(x.root));
+        }
+        printf("\t=============================================================\n");
+        printf("\t=                    DETAIL LAIN TENTANG KERAJAAN            =\n");
+        printf("\t=============================================================\n");
+        printf("\t[1] Tampilkan Garis Suksesi\n");
+        printf("\t[2] Tampilkan Keseluruhan Silsilah Kerajaan\n");
+        printf("\t[3] Tampilkan Timeline Struktur Kerajaan\n");
+        printf("\t[4] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
+        printf("\t[0] Kembali\n\n");
+        printf("\tMasukkan pilihan : ");
+
+        gets(pilih);
+        char choice = pilih[0];
+        switch (choice) {
+            case '1':
+                if (!runtuh) {
+                    showGarisSuksesi(x);
+                    system("pause");
+                } else {
+                    printf("\tKERAJAAN INI TELAH RUNTUH, YANG TERSISA HANYALAH CERITA. \n");
+                    system("pause");
+                }
+                break;
+            case '2':
+                displayFamilyAT(X.root, 0);
+                system("pause");
+                break;
+            case '3':
+                printFileContent("sejarah_kerajaan.txt");
+                system("pause");
+                break;
+            case '4':
+                printFileContent("daftar_raja.txt");
+                system("pause");
+                break;
+            case '0':
+                return;
+            default:
+                printf("\n\tPilihanmu salah, pilih lagi!\n\t");
+                system("pause");
+                break;
+        }
+    }
 }

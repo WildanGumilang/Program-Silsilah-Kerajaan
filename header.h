@@ -65,6 +65,14 @@ bool isRoot(Root X, nbAddr node);
 
 nbAddr searchNode(Root X,infotype nama);
 
+void insertKing(Root *king, ATRoot *King, int tahun);
+
+void insertBangsawan(Root *king, ATRoot *King, int tahun);
+
+void insertMate(Root x, ATRoot X, int tahun);
+
+void deleteBangsawan(Root* x, ATRoot X, infotype Delete, int tahun);
+
 void insertNode(infotype nama, bool gender, nbAddr parent);
 
 bool deleteNode(Root * X, infotype nama, int tahun);
@@ -76,14 +84,16 @@ void displayFamily(nbAddr X, int Level);
 //modifikasi
 void showDetailNode(Root X, ATRoot x, infotype node);
 
+void showDetailNodeMati(Root x, ATRoot X, infotype nama, anAddr person);
+
 //modifikasi
 void addTahun(int * tahun, int penambahan, Root X, ATRoot x);
 
+//buat
 int countAnak(Root X ,nbAddr node);
 
+//buat
 int countPenerus(Root X, infotype nama);
-
-int countNode(nbAddr root);
 
 //tree 2
 bool isEmptyAT(anAddr *node);
@@ -109,5 +119,9 @@ void writeFamilyToFile(FILE *file, nbAddr X, int Level);
 void saveTreeToFile(Root tree, const char *filename, int tahun, infotype nama, bool tambah);
 
 void printFileContent(const char *filename);
+
+int countNode(nbAddr root);
+
+void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh);
 
 #endif
