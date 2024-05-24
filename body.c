@@ -80,7 +80,7 @@ void insertKing(Root *king, ATRoot *King, int tahun) {
     system("cls");
     printf("\n\t======================== TAMBAH BANGSAWAN ========================\n\n");
     printf("\tMasukkan Nama Raja atau Ratu: ");
-    scanf("%s", name);
+    gets(name);
 
     do {
         printf("\tJenis Kelamin (L/P): ");
@@ -418,8 +418,8 @@ void showDetailNode(Root X, ATRoot x, infotype node) {
 			printf("\tNama Bangsawan\t: \033[32m%s\033[0m\n", person->nama);
 			printf("\tUsia\t\t: %d\n", person->age);
 		} else {
-			infotype gender = (person->gender == true) ? "son" : "daughter";
-			printf("\tNama Bangsawan\t: \033[32m%s\033[0m %s of %s \n", person->nama, gender, person->parent);
+			infotype gender = (person->gender == true) ? "Putra" : "Putri";
+			printf("\tNama Bangsawan\t: \033[32m%s\033[0m %s dari %s \n", person->nama, gender, person->parent);
 			printf("\tUsia\t\t: %d\n", person->age);
 			printf("\tPewaris Tahta \t: ke-%d\n", countPenerus(X, person->nama));
 		}
@@ -830,7 +830,7 @@ void insertBangsawan(Root *king, ATRoot *King, int tahun) {
         printf("\t=                  TAMBAH BANGSAWAN                         =\n");
         printf("\t============================================================\n\n");
         printf("\tMasukkan Nama Orang Tua dari Bangsawan: ");
-        scanf("%s", parent);
+        gets(parent);
         pr = searchNode(*king, parent);
         prAT = searchNodeAT(*King, parent);
         if (pr == NULL) {
@@ -842,7 +842,7 @@ void insertBangsawan(Root *king, ATRoot *King, int tahun) {
 
     do {
         printf("\n\tNama Bangsawan: ");
-        scanf("%s", child);
+        gets(child);
         if (searchNode(*king, child) != NULL) {
             printf("\n\tNama Sudah Ada dalam Kerajaan, Bangsawan Tidak diperbolehkan Memiliki Nama yang Sama. Silahkan Masukkan Nama Lain.\n");
         }
@@ -895,7 +895,7 @@ void insertMate(Root x, ATRoot X, int tahun) {
     printf("\t==============================================================\n\n");
     do {
         printf("\tMasukkan Nama Bangsawan: ");
-        scanf("%s", bride);
+        gets(bride);
         mates = searchNode(x, bride);
         if (mates == NULL) {
             printf("\n\tNama '%s' tidak ditemukan dalam Kerajaan. Masukkan nama lain.\n", bride);
@@ -917,7 +917,7 @@ void insertMate(Root x, ATRoot X, int tahun) {
     } else {
         printf("\tMasukkan Nama Istri Bangsawan: ");
     }
-    scanf("%s", soulmate);
+    gets(soulmate);
 
     do {
         printf("\tMasukkan Usia Pasangan: ");
@@ -954,8 +954,8 @@ void showDetailNodeMati(Root x, ATRoot X, infotype nama, anAddr person) {
             printf("\tNama Bangsawan\t: \033[31m%s\033[0m\n", personAT->nama);
             printf("\033[0m");
         } else {
-            infotype gender = (personAT->gender == true) ? "son" : "daughter";
-            printf("\tNama Bangsawan\t: \033[31m%s\033[0m %s of %s \n", personAT->nama, gender, personAT->parent);
+            infotype gender = (personAT->gender == true) ? "Putra" : "Putri";
+            printf("\tNama Bangsawan\t: \033[31m%s\033[0m %s dari %s \n", personAT->nama, gender, personAT->parent);
         }
         if (personAT->pair == NULL || strcmp(personAT->pair, "") == 0) {
             if (personAT->status == false) {

@@ -80,7 +80,7 @@ int main() {
 					namaNode = (infotype) malloc(sizeof(infotype));
 					system("cls");
 			        printf("\tNama Bangsawan : ");
-			        scanf("%s", namaNode);
+			        gets(namaNode);
 					anAddr personAT = searchNodeAT(King, namaNode);
 					showDetailNodeMati(king, King, namaNode, personAT);
 				} else {
@@ -89,7 +89,7 @@ int main() {
 			        nbAddr info;
 			        system("cls");
 			        printf("\tNama Bangsawan : ");
-			        scanf("%s", namaNode);
+			        gets(namaNode);
 			        showDetailNode(king, King, namaNode);
 			    }
 			    break;
@@ -114,7 +114,7 @@ int main() {
 				infotype Delete;
 				Delete = (infotype) malloc(sizeof(infotype));
 				printf("\tMasukkan Nama Bangsawan yang Akan Dibacok : ");
-				scanf("%s", Delete);
+				gets(Delete);
 				nbAddr del = searchNode(king, Delete);
 				if(isRoot(king, del)) {
 					if(del->fs == NULL){
