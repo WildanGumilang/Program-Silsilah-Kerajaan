@@ -124,4 +124,5 @@ int countNode(nbAddr root);
 
 void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh);
 
+void introCreator();
 #endif

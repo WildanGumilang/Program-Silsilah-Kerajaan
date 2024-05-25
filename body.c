@@ -779,8 +779,6 @@ void printFileContent(const char *filename) {
     }
 
     fclose(file);
-
-	system("pause");
 }
 
 int countNode(nbAddr root) {
@@ -992,27 +990,33 @@ void deleteBangsawan(Root* x, ATRoot X, infotype Delete, int tahun) {
 
 void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh) {
     char pilih[10];
+    if (!runtuh && x.root == NULL) {
+        printf("\n\tKerajaan Ini belum Memiliki Anggota\n");
+        system("pause");
+        return;
+    }
     for (;;) {
         system("cls");
+        printf("\n\n\n\n\n");
         if (!runtuh) {
-            printf("\n\t=============================================================\n");
-            printf("\t=                       DETAIL KERAJAAN                      =\n");
-            printf("\t=============================================================\n");
-            printf("\tTahun\t\t\t: %d\n", tahun);
-            printf("\tNama Kerajaan\t\t: Kingdom of the Netherlands\n");
-            printf("\tNama Raja/Ratu\t\t: %s \n", x.root->nama);
-            printf("\tGenerasi Terakhir\t: Generasi ke-%d\n", countGenerasi(X));
-            printf("\tJumlah Bangsawan Aktif\t: %d\n\n", countNode(x.root));
+            printf("\n\t\t\t\t\t=============================================================\n");
+            printf("\t\t\t\t\t=                       DETAIL KERAJAAN                      =\n");
+            printf("\t\t\t\t\t=============================================================\n");
+            printf("\t\t\t\t\tTahun\t\t\t: %d\n", tahun);
+            printf("\t\t\t\t\tNama Kerajaan\t\t: Kingdom of the Netherlands\n");
+            printf("\t\t\t\t\tNama Raja/Ratu\t\t: %s \n", x.root->nama);
+            printf("\t\t\t\t\tGenerasi Terakhir\t: Generasi ke-%d\n", countGenerasi(X));
+            printf("\t\t\t\t\tJumlah Bangsawan Aktif\t: %d\n\n", countNode(x.root));
         }
-        printf("\t=============================================================\n");
-        printf("\t=                    DETAIL LAIN TENTANG KERAJAAN            =\n");
-        printf("\t=============================================================\n");
-        printf("\t[1] Tampilkan Garis Suksesi\n");
-        printf("\t[2] Tampilkan Keseluruhan Silsilah Kerajaan\n");
-        printf("\t[3] Tampilkan Timeline Struktur Kerajaan\n");
-        printf("\t[4] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
-        printf("\t[0] Kembali\n\n");
-        printf("\tMasukkan pilihan : ");
+        printf("\t\t\t\t\t=============================================================\n");
+        printf("\t\t\t\t\t=                    DETAIL LAIN TENTANG KERAJAAN            =\n");
+        printf("\t\t\t\t\t=============================================================\n");
+        printf("\t\t\t\t\t[1] Tampilkan Garis Suksesi\n");
+        printf("\t\t\t\t\t[2] Tampilkan Keseluruhan Silsilah Kerajaan\n");
+        printf("\t\t\t\t\t[3] Tampilkan Timeline Struktur Kerajaan\n");
+        printf("\t\t\t\t\t[4] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
+        printf("\t\t\t\t\t[0] Kembali\n\n");
+        printf("\t\t\t\t\tMasukkan pilihan : ");
 
         gets(pilih);
         char choice = pilih[0];
@@ -1046,4 +1050,17 @@ void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh) {
                 break;
         }
     }
+}
+
+void introCreator() {
+    const char sentence[] = "\n\n\n\n\n\t\t\t\t\t\t\t\tCreated by : \n\n\t\t\t\t\t\tAlqan Nazra\t\t\t231511068\n\t\t\t\t\t\tMuhammad Wildan Gumilang\t231511087\n\t\t\t\t\t\tRyuki Haga Budiarto\t\t231511091\n\n\t\t\t\t\t\t\t1C-D3 Teknik Informatika \n\t\t\t\t\t\t\tPoliteknik Negeri Bandung\n\t\t\t\t\t\t\t\t  2024\n";
+    int i;
+
+    for (i = 0; sentence[i] != 0; i++) {
+        Sleep(50);
+        printf("%c", sentence[i]);
+    }
+    Sleep(100);
+    system("pause");
+    system("cls");
 }
