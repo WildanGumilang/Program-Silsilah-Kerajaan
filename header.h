@@ -88,4 +88,5 @@ void deleteBangsawan(Root* x, ATRoot X, infotype Delete, int tahun);
 void addTahun(int * tahun, int penambahan, Root X, ATRoot x);
 void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh);
 void introCreator();
+void displayMenu(int selectedOption);
 #endif

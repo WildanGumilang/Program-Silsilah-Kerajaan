@@ -337,16 +337,16 @@ void showGarisSuksesi(Root X) {
             if (Pcur->fs != 0 && Resmi) {
                 Pcur = Pcur->fs;
                 if (!isRoot(X, Pcur)) {
-                    printf("\t| \033[32m%d. %s\n", index, Pcur->nama);
-					printf("\033[0m");
+                    printf("\t| \033[0m \033[1;32m%d. %s\n", index, Pcur->nama);
+					printf("\033[0m \033[38;2;255;165;0m");
                     printf("\t------------------------------------------\n");
                     index++;
                 }
             } else if (Pcur->nb != NULL) {
                 Pcur = Pcur->nb;
                 if (!isRoot(X, Pcur)) {
-                    printf("\t| \033[32m%d. %s\n", index, Pcur->nama);
-					printf("\033[0m");
+                    printf("\t| \033[0m \033[1;32m%d. %s\n", index, Pcur->nama);
+					printf("\033[0m \033[38;2;255;165;0m");
                     printf("\t------------------------------------------\n");
                     index++;
                 }
@@ -377,8 +377,8 @@ void displayFamily(nbAddr X, int Level) {
                     printf("\t|--");
                 }
             }
-            printf("\033[32m%s\n", X->nama);
-			printf("\033[0m"); // Reset warna ke default
+            printf("\033[0m \033[1;32m%s\n", X->nama);
+			printf("\033[0m \033[38;2;255;165;0m"); // Reset warna ke default
         }
         displayFamily(X->fs, Level + 1);
         displayFamily(X->nb, Level);
@@ -415,11 +415,11 @@ void showDetailNode(Root X, ATRoot x, infotype node) {
 		printf("\n\t========================= DETAIL BANGSAWAN HIDUP =========================\n\n");
 		
 		if (isRoot(X, person)) {
-			printf("\tNama Bangsawan\t: \033[32m%s\033[0m\n", person->nama);
+			printf("\tNama Bangsawan\t: \033[0m \033[1;32m%s\033[0m \033[38;2;255;165;0m\n", person->nama);
 			printf("\tUsia\t\t: %d\n", person->age);
 		} else {
 			infotype gender = (person->gender == true) ? "Putra" : "Putri";
-			printf("\tNama Bangsawan\t: \033[32m%s\033[0m %s dari %s \n", person->nama, gender, person->parent);
+			printf("\tNama Bangsawan\t: \033[0m \033[1;32m%s\033[0m \033[38;2;255;165;0m %s dari %s \n", person->nama, gender, person->parent);
 			printf("\tUsia\t\t: %d\n", person->age);
 			printf("\tPewaris Tahta \t: ke-%d\n", countPenerus(X, person->nama));
 		}
@@ -658,11 +658,12 @@ void displayFamilyAT(anAddr X, int Level) {
                 }
             }
             if (X->status) {
-                printf("\033[32m%s\n", X->nama); // Warna hijau
+                printf("\033[0m \033[1;32m%s\n", X->nama); // Warna hijau
             } else {
-                printf("\033[31m%s\n", X->nama); // Warna merah
+                printf("\033[0m \033[1;31m%s\n", X->nama); // Warna merah
             }
-            printf("\033[0m"); // Reset warna ke default
+            
+            printf("\033[0m \033[38;2;255;165;0m"); // Reset warna ke default
 		}
         displayFamilyAT(X->fs, Level + 1);
         displayFamilyAT(X->nb, Level);
@@ -949,11 +950,11 @@ void showDetailNodeMati(Root x, ATRoot X, infotype nama, anAddr person) {
         printf("\n\t========================= DETAIL BANGSAWAN MATI =========================\n\n");
 
         if (isRootAT(X, personAT)) {
-            printf("\tNama Bangsawan\t: \033[31m%s\033[0m\n", personAT->nama);
-            printf("\033[0m");
+            printf("\tNama Bangsawan\t: \033[0m \033[1;31m%s\033[0m \033[38;2;255;165;0m\n", personAT->nama);
+            printf("\033[0m \033[38;2;255;165;0m");
         } else {
             infotype gender = (personAT->gender == true) ? "Putra" : "Putri";
-            printf("\tNama Bangsawan\t: \033[31m%s\033[0m %s dari %s \n", personAT->nama, gender, personAT->parent);
+            printf("\tNama Bangsawan\t: \033[0m \033[1;31m%s\033[0m \033[38;2;255;165;0m %s dari %s \n", personAT->nama, gender, personAT->parent);
         }
         if (personAT->pair == NULL || strcmp(personAT->pair, "") == 0) {
             if (personAT->status == false) {
@@ -995,7 +996,8 @@ void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh) {
         system("pause");
         return;
     }
-    for (;;) {
+    int selectedOption = 1;
+    while (1) {
         system("cls");
         printf("\n\n\n\n\n");
         if (!runtuh) {
@@ -1008,45 +1010,65 @@ void aboutKerajaan(Root x, ATRoot X, int tahun, bool runtuh) {
             printf("\t\t\t\t\tGenerasi Terakhir\t: Generasi ke-%d\n", countGenerasi(X));
             printf("\t\t\t\t\tJumlah Bangsawan Aktif\t: %d\n\n", countNode(x.root));
         }
-        printf("\t\t\t\t\t=============================================================\n");
-        printf("\t\t\t\t\t=                    DETAIL LAIN TENTANG KERAJAAN            =\n");
-        printf("\t\t\t\t\t=============================================================\n");
-        printf("\t\t\t\t\t[1] Tampilkan Garis Suksesi\n");
-        printf("\t\t\t\t\t[2] Tampilkan Keseluruhan Silsilah Kerajaan\n");
-        printf("\t\t\t\t\t[3] Tampilkan Timeline Struktur Kerajaan\n");
-        printf("\t\t\t\t\t[4] Tampilkan Bangsawan yang Pernah Menjadi Raja\n");
-        printf("\t\t\t\t\t[0] Kembali\n\n");
-        printf("\t\t\t\t\tMasukkan pilihan : ");
+        const char *highlight = "\033[0m \033[38;2;255;215;0m"; // warna highlight
+        const char *reset = "\033[0m \033[38;2;255;165;0m"; // warna reset
 
-        gets(pilih);
-        char choice = pilih[0];
-        switch (choice) {
-            case '1':
-                if (!runtuh) {
-                    showGarisSuksesi(x);
-                    system("pause");
-                } else {
-                    printf("\tKERAJAAN INI TELAH RUNTUH, YANG TERSISA HANYALAH CERITA. \n");
-                    system("pause");
+        printf("\t\t\t\t\t\t==================================================\n");
+        printf("\t\t\t\t\t\t=          DETAIL LAIN TENTANG KERAJAAN          =\n");
+        printf("\t\t\t\t\t\t==================================================\n\n");
+
+        printf("\t\t\t\t\t\t==================================================\n");
+        printf("\t\t\t\t\t\t                       MENU                      \n");
+        printf("\t\t\t\t\t\t==================================================\n");
+        printf("\t\t\t\t\t\t   %s%s [1] Tampilkan Garis Suksesi            %s\n", selectedOption == 1 ? highlight : " ", selectedOption == 1 ? ">>>" : "  ", selectedOption == 1 ? reset : "");
+        printf("\t\t\t\t\t\t   %s%s [2] Tampilkan seluruh Silsilah Kerajaan        %s\n", selectedOption == 2 ? highlight : " ", selectedOption == 2 ? ">>>" : "  ", selectedOption == 2 ? reset : "");
+        printf("\t\t\t\t\t\t   %s%s [3] Tampilkan Timeline Peristiwa       %s\n", selectedOption == 3 ? highlight : " ", selectedOption == 3 ? ">>>" : "  ", selectedOption == 3 ? reset : "");
+        printf("\t\t\t\t\t\t   %s%s [4] Tampilkan Pendahulu yang Pernah    \n\t\t\t\t\t\t            Menjadi Raja%s\n", selectedOption == 4 ? highlight : " ", selectedOption == 4 ? ">>>" : "  ", selectedOption == 4 ? reset : "");
+        printf("\t\t\t\t\t\t   %s%s [0] Kembali                            %s\n", selectedOption == 0 ? highlight : " ", selectedOption == 0 ? ">>>" : "  ", selectedOption == 0 ? reset : "");
+        printf("\t\t\t\t\t\t==================================================\n");
+
+        int ch = getch();
+        switch (ch) {
+            case 72:  // Up arrow key
+                selectedOption--;
+                if (selectedOption < 0) selectedOption = 4;
+                break;
+            case 80:  // Down arrow key
+                selectedOption++;
+                if (selectedOption > 4) selectedOption = 0;
+                break;
+            case 13:  // Enter key
+                switch (selectedOption) {
+                    case 1:
+                        if (!runtuh) {
+                            showGarisSuksesi(x);
+                            system("pause");
+                        } else {
+                            printf("\tKERAJAAN INI TELAH RUNTUH, YANG TERSISA HANYALAH CERITA. \n");
+                            system("pause");
+                        }
+                        break;
+                    case 2:
+                        displayFamilyAT(X.root, 0);
+                        system("pause");
+                        break;
+                    case 3:
+                        printFileContent("sejarah_kerajaan.txt");
+                        system("pause");
+                        break;
+                    case 4:
+                        printFileContent("daftar_raja.txt");
+                        system("pause");
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        printf("\n\tPilihanmu salah, pilih lagi!\n\t");
+                        system("pause");
+                        break;
                 }
                 break;
-            case '2':
-                displayFamilyAT(X.root, 0);
-                system("pause");
-                break;
-            case '3':
-                printFileContent("sejarah_kerajaan.txt");
-                system("pause");
-                break;
-            case '4':
-                printFileContent("daftar_raja.txt");
-                system("pause");
-                break;
-            case '0':
-                return;
             default:
-                printf("\n\tPilihanmu salah, pilih lagi!\n\t");
-                system("pause");
                 break;
         }
     }
@@ -1063,4 +1085,26 @@ void introCreator() {
     Sleep(100);
     system("pause");
     system("cls");
+}
+
+void displayMenu(int selectedOption) {
+    const char *highlight = "\033[0m \033[38;2;255;215;0m";
+    const char *reset = "\033[0m \033[38;2;255;165;0m";   
+
+    printf("\t\t\t\t\t\t===========================================\n");
+    printf("\t\t\t\t\t\t=         WELCOME TO THE KINGDOM           =\n");
+    printf("\t\t\t\t\t\t=             OF NETHERLANDS               =\n");
+    printf("\t\t\t\t\t\t===========================================\n\n");
+
+    printf("\t\t\t\t\t\t===========================================\n");
+    printf("\t\t\t\t\t\t                 MAIN MENU                 \n");
+    printf("\t\t\t\t\t\t===========================================\n");
+    printf("\t\t\t\t\t\t   %s%s [1] Tambah Bangsawan                 %s\n", selectedOption == 1 ? highlight : " ", selectedOption == 1 ? ">>>" : "", selectedOption == 1 ? reset : "");
+    printf("\t\t\t\t\t\t   %s%s [2] Tambah Pasangan                  %s\n", selectedOption == 2 ? highlight : " ", selectedOption == 2 ? ">>>" : "", selectedOption == 2 ? reset : "");
+    printf("\t\t\t\t\t\t   %s%s [3] Cari Bangsawan di Kerajaan Ini   %s\n", selectedOption == 3 ? highlight : " ", selectedOption == 3 ? ">>>" : "", selectedOption == 3 ? reset : "");
+    printf("\t\t\t\t\t\t   %s%s [4] Bacok Bangsawan                  %s\n", selectedOption == 4 ? highlight : " ", selectedOption == 4 ? ">>>" : "", selectedOption == 4 ? reset : "");
+    printf("\t\t\t\t\t\t   %s%s [5] Tentang Kerajaan                 %s\n", selectedOption == 5 ? highlight : " ", selectedOption == 5 ? ">>>" : "", selectedOption == 5 ? reset : "");
+    printf("\t\t\t\t\t\t   %s%s [6] Lakukan Timeskip                 %s\n", selectedOption == 6 ? highlight : " ", selectedOption == 6 ? ">>>" : "", selectedOption == 6 ? reset : "");
+    printf("\t\t\t\t\t\t   %s%s [0] Keluar                           %s\n", selectedOption == 0 ? highlight : " ", selectedOption == 0 ? ">>>" : "", selectedOption == 0 ? reset : "");
+    printf("\t\t\t\t\t\t===========================================\n");
 }
