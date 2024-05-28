@@ -386,7 +386,6 @@ void displayFamily(nbAddr X, int Level) {
 }
 
 
-//modifikasi
 void setMate(nbAddr Person, infotype mate, ATRoot X, int umur, bool sex) {
 	mateAddr pair;
 	if (!isSingle(Person)) {
@@ -402,7 +401,6 @@ void setMate(nbAddr Person, infotype mate, ATRoot X, int umur, bool sex) {
     }
 }
 
-//modifikasi
 void showDetailNode(Root X, ATRoot x, infotype node) {
 
 	nbAddr person;
@@ -439,7 +437,6 @@ void showDetailNode(Root X, ATRoot x, infotype node) {
 
 
 
-//modifikasi
 void addTahun(int * tahun, int penambahan, Root X, ATRoot x){
 	*tahun += penambahan;
 	nbAddr Pcur = X.root;
@@ -674,9 +671,9 @@ int countGenerasi(ATRoot x) {
     if (x.root == NULL) {
 		return 0;
 	}
-    int depth = 1;
+    int depth = 0;
     nbAddr currentNode = x.root;
-    int currentDepth = 1;
+    int currentDepth = 0;
 
     while (currentNode != NULL) {
         if (currentNode->fs != NULL) {

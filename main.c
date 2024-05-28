@@ -37,32 +37,18 @@ int main() {
         printf("\n\n");
         displayMenu(selectedOption);
 
-        // printf("\t\t\t\t\t\t===========================================\n");
-        // printf("\t\t\t\t\t\t=                MAIN MENU                 =\n");
-        // printf("\t\t\t\t\t\t===========================================\n");
-        // printf("\t\t\t\t\t\t=    [1] Tambah Bangsawan                 =\n");
-        // printf("\t\t\t\t\t\t=    [2] Tambah Pasangan                  =\n");
-        // printf("\t\t\t\t\t\t=    [3] Cari Bangsawan di Kerajaan Ini   =\n");
-        // printf("\t\t\t\t\t\t=    [4] Bacok Bangsawan                  =\n");
-        // printf("\t\t\t\t\t\t=    [5] Tentang Kerajaan                 =\n");
-        // printf("\t\t\t\t\t\t=    [6] Lakukan Timeskip                 =\n");
-        // printf("\t\t\t\t\t\t=    [0] Keluar                           =\n");
-        // printf("\t\t\t\t\t\t===========================================\n");
-        // printf("\t\t\t\t\t\tPilihan Anda : ");
-        // scanf("%d", &pilMenu);
-        // getchar();
 
         int ch = getch();
         switch (ch) {
-            case 72:  // Up arrow key
+            case 72:  
                 selectedOption--;
                 if (selectedOption < 0) selectedOption = 6;
                 break;
-            case 80:  // Down arrow key
+            case 80:  
                 selectedOption++;
                 if (selectedOption > 6) selectedOption = 0;
                 break;
-            case 13:  // Enter key
+            case 13: 
                 switch (selectedOption) {
                     case 1: 
                         if (runtuh) {
@@ -176,7 +162,7 @@ int main() {
                                 printf("\n\tMasukkan angka yang valid. Penambahan tahun tidak bisa kurang dari 1.\n");
                             } else {
                                 addTahun(&tahun, tambah, king, King);
-                                printf("\n\tPenambahan tahun berhasil.\n\tTahun saat ini sekarang : %d\n\n", tahun);
+                                printf("\n\tPenambahan tahun berhasil.\n\tTahun saat ini : %d\n\n", tahun);
                             }
                             system("pause");
                         }
