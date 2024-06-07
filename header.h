@@ -1,3 +1,16 @@
+/*
+Dibuat Oleh : 
+
+KELOMPOK 688791
+D3 - 1C
+
+Alqan Nazra (231511068)
+Muhammad Wildan Gumilang (231511087)
+Ryuki Haga Budiarto (231511091)
+
+Tanggal Update : 01 Mei 2024
+*/
+
 #ifndef siljaan_h
 #define siljaan_h
 

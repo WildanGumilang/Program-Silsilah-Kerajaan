@@ -1,0 +1,138 @@
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2000
+Telah lahir seorang bangsawan dengan nama : wildan
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2000
+Telah lahir seorang bangsawan dengan nama : ryu
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+		|--ryu
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2025
+Telah lahir seorang bangsawan dengan nama : nyok
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+		|--ryu
+		|--nyok
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2025
+Telah lahir seorang bangsawan dengan nama : alqan
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+		|--ryu
+		|--nyok
+		|--alqan
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2025
+Telah lahir seorang bangsawan dengan nama : dio
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+		|--ryu
+		|  	|--dio
+		|--nyok
+		|--alqan
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2025
+Telah lahir seorang bangsawan dengan nama : restu
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+		|--ryu
+		|  	|--dio
+		|  	|--restu
+		|--nyok
+		|--alqan
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2025
+Telah gugur seorang bangsawan dengan nama : wildan
+Silsilah Kerajaan setelah peristiwa ini :
+	ryu
+		|--dio
+		|  	|--restu
+		|--nyok
+		|--alqan
+
+======================================================================================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2000
+Telah lahir seorang bangsawan dengan nama : wildan
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2000
+Telah lahir seorang bangsawan dengan nama : ryu
+Silsilah Kerajaan setelah peristiwa ini :
+	wildan
+		|--ryu
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2000
+Telah gugur seorang bangsawan dengan nama : wildan
+Silsilah Kerajaan setelah peristiwa ini :
+	ryu
+
+===========================================================
+
+===========================================================
+                     Update Silsilah Kerajaan              
+===========================================================
+
+Tahun : 2000
+Telah gugur seorang bangsawan dengan nama : ryu
+Silsilah Kerajaan setelah peristiwa ini :
+
+===========================================================
+

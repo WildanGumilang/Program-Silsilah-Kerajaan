@@ -1,3 +1,16 @@
+/*
+Dibuat Oleh : 
+
+KELOMPOK 688791
+D3 - 1C
+
+Alqan Nazra (231511068)
+Muhammad Wildan Gumilang (231511087)
+Ryuki Haga Budiarto (231511091)
+
+Tanggal Update : 02 Mei 2024
+*/
+
 #include "header.h"
 
 bool isEmpty(nbAddr *node) {
@@ -143,7 +156,7 @@ bool deleteNode(Root * X, infotype nama, int tahun){
   nbAddr nDel;
   bool del = true;
   nDel = searchNode(*X,nama);
-  if (nDel == NULL){
+  if (nDel == NULL){ 
     	printf("\n\tNama bangsawan tidak ditemukan\n\t", nama);
 		system("pause");
 		del = false;
@@ -831,8 +844,10 @@ void insertBangsawan(Root *king, ATRoot *King, int tahun) {
         prAT = searchNodeAT(*King, parent);
         if (pr == NULL) {
             printf("\n\t'%s' Tidak Ada dalam Kerajaan, Silahkan Masukkan Nama Lain.\n", parent);
+            system("pause");
         } else if (isSingle(pr)) {
             printf("\n\t%s Belum Menikah, Belum Bisa Memiliki Anak.\n", pr->nama);
+            system("pause");
         }
     } while (pr == NULL || isSingle(pr));
 

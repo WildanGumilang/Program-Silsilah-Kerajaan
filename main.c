@@ -1,3 +1,16 @@
+/*
+Dibuat Oleh : 
+
+KELOMPOK 688791
+D3 - 1C
+
+Alqan Nazra (231511068)
+Muhammad Wildan Gumilang (231511087)
+Ryuki Haga Budiarto (231511091)
+
+Tanggal Update : 02 Mei 2024
+*/
+
 #include <stdio.h>
 #include <conio.h>
 #include "header.h"
